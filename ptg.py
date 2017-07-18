@@ -5,15 +5,15 @@ from constants import *
 
 # TODO - tweak weights to existing cost functions
 WEIGHTED_COST_FUNCTIONS = [
-    (time_diff_cost,    1),
-    (s_diff_cost,       1),
-    (d_diff_cost,       1),
+    (time_diff_cost,    0.5),
+    (s_diff_cost,       0.5),
+    (d_diff_cost,       2),
     (efficiency_cost,   1),
-    (max_jerk_cost,     1),
+    (max_jerk_cost,     999),
     (total_jerk_cost,   1),
-    (collision_cost,    1),
-    (buffer_cost,       1),
-    (max_accel_cost,    1),
+    (collision_cost,    0),
+    (buffer_cost,       0),
+    (max_accel_cost,    999),
     (total_accel_cost,  1),
 ]
 
@@ -104,20 +104,20 @@ def JMT(start, end, T):
     Calculates Jerk Minimizing Trajectory for start, end and T.
     """
     a_0, a_1, a_2 = start[0], start[1], start[2] / 2.0
-    c_0 = a_0 + a_1 * T + a_2 * T**2
-    c_1 = a_1 + 2* a_2 * T
-    c_2 = 2 * a_2
+    c_0 = a_0 + a_1 * T + 0.5 * a_2 * T**2
+    c_1 = a_1 + a_2 * T
+    c_2 = a_2
     
     A = np.array([
             [  T**3,   T**4,    T**5],
             [3*T**2, 4*T**3,  5*T**4],
             [6*T,   12*T**2, 20*T**3],
         ])
-    B = np.array([
+    b = np.array([
             end[0] - c_0,
             end[1] - c_1,
             end[2] - c_2
         ])
-    a_3_4_5 = np.linalg.solve(A,B)
-    alphas = np.concatenate([np.array([a_0, a_1, a_2]), a_3_4_5])
+    a_3, a_4, a_5 = np.linalg.solve(A,b)
+    alphas = [a_0, a_1, a_2, a_3, a_4, a_5]
     return alphas

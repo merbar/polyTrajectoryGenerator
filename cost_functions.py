@@ -83,7 +83,7 @@ def efficiency_cost(traj, target_vehicle, delta, T, predictions):
     targ_v = float(targ_s) / t
     return logistic(2*float(targ_v - avg_v) / avg_v)
 
-def max_accel_cost(traj, target_vehicle, delta, T, predictions):
+def total_accel_cost(traj, target_vehicle, delta, T, predictions):
     s, d, t = traj
     s_dot = differentiate(s)
     s_d_dot = differentiate(s_dot)
@@ -98,7 +98,7 @@ def max_accel_cost(traj, target_vehicle, delta, T, predictions):
     
     return logistic(acc_per_second / EXPECTED_ACC_IN_ONE_SEC )
     
-def total_accel_cost(traj, target_vehicle, delta, T, predictions):
+def max_accel_cost(traj, target_vehicle, delta, T, predictions):
     s, d, t = traj
     s_dot = differentiate(s)
     s_d_dot = differentiate(s_dot)

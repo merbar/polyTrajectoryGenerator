@@ -12,10 +12,10 @@ class Vehicle(object):
         s = self.start_state[:3]
         d = self.start_state[3:]
         state = [
-            s[0] + (s[1] * t) + s[2] * t**2 / 2.0,
+            s[0] + (s[1] * t) + 0.5 * s[2] * t**2,
             s[1] + s[2] * t,
             s[2],
-            d[0] + (d[1] * t) + d[2] * t**2 / 2.0,
+            d[0] + (d[1] * t) + 0.5 * d[2] * t**2,
             d[1] + d[2] * t,
             d[2],
         ]
